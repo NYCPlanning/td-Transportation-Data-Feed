@@ -21,14 +21,11 @@ print("-----------------Authorized--------------------")
 sheet = client.open('Sheet1')
 print("-----------------Sheet Opened------------------")
 
-data = {'Date':  ['TBD', 'TBD'],\
-        'Ridership': ['TBD', 'TBD']}
-
-df = pd.DataFrame(data)
+rawdf = pd.read_csv("https://data.ny.gov/api/views/vxuj-8kew/rows.csv?accessType=DOWNLOAD&sorting=true", header= 0, index_col=False)
 
 
 wks = sheet[0]
 print("-----------------First Sheet Accessed----------")
 
-wks.set_dataframe(df,(1,1))
+wks.set_dataframe(rawdf,(1,1))
 print("-----------------Data Updated------------------")
