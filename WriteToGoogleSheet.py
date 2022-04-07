@@ -387,11 +387,4 @@ try:
 except:
     print(timestamp+' ERROR!')    
     
-    
-    
-    
-wks = sheet[0]
-print("-----------------First Sheet Accessed----------")
-
-wks.set_dataframe(rawdf,(1,1))
-print("-----------------Data Updated------------------")
+  
