@@ -29,10 +29,13 @@ print("-----------------Authorized--------------------")
 sheet = client.open('Transportation Data Feed')
 print("-----------------Sheet Opened------------------")
 
+#Define which sheet to open in the file
+wks = sh[0]
+#Get the data from the Sheet into python as DF
+df = wks.get_as_df()
+
 try:
     # Subway and Bus Daily Ridership
-    url='https://data.ny.gov/api/views/vxuj-8kew/rows.csv?accessType=DOWNLOAD&sorting=true'
-    df = pd.read_csv("https://data.ny.gov/api/views/vxuj-8kew/rows.csv?accessType=DOWNLOAD&sorting=true", header= 0, index_col=False)
     df['Date']=[datetime.datetime.strptime(x,'%m/%d/%Y') for x in df['Date']]
     df['Subway']=[int(x) for x in df['Subways: Total Estimated Ridership']]
     df['Bus']=[int(x) for x in df['Buses: Total Estimated Ridership']]
