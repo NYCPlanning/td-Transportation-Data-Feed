@@ -29,7 +29,7 @@ sheet = client.open('Transportation Data Feed')
 print("-----------------Sheet Opened------------------")
 
 #Define which sheet to open in the file
-wks = sheet['MTA Auto Update']
+wks = sheet[0]
 
 #Get the data from MTA website
 rawdf = pd.read_csv("https://data.ny.gov/api/views/vxuj-8kew/rows.csv?accessType=DOWNLOAD&sorting=true", header= 0, index_col=False)
