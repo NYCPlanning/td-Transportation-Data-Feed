@@ -27,8 +27,19 @@ jobs:
         pip install pygsheets
         pip install numpy
         pip install google-auth
+        pip install datetime
+        pip install pytz
+        pip install plotly
     - name: Run WriteToGoogleSheet.py
       env: 
         GAPI: ${{secrets.GAPI}} 
       run: |
         python ./WriteToGoogleSheet.py
+        
+    - name: Git push
+      run: |
+        git config --global user.name "rrlinrr"
+        git config --global user.email "rlin@planning.nyc.gov"
+        git add .
+        git commit -m "update"
+        git push 
