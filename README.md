@@ -2,5 +2,3 @@
 
 <a href="https://nycplanning.github.io/td-Transportation-Data-Feed/7DayAvg.html" target="_blank"><b>Automatically Updated Chart</b></a>
 
-<iframe src="https://nycplanning.github.io/td-Transportation-Data-Feed/7DayAvg.html"></iframe>
-
