@@ -1,8 +1,7 @@
 name: workflow
 
 on:
-  workflow_dispatch
-
+  - cron: '0 21 * * *'
 jobs:
   build:
 
