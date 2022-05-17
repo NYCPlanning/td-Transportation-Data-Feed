@@ -1,4 +1,4 @@
-name: workflow
+name: CreateChart
 
 on:
   workflow_dispatch
@@ -34,7 +34,7 @@ jobs:
       env: 
         GAPI: ${{secrets.GAPI}} 
       run: |
-        python ./WriteToGoogleSheet.py
+        python ./CreateChart.py
         
     - name: Git push
       run: |
