@@ -30,6 +30,7 @@ jobs:
         pip install datetime
         pip install pytz
         pip install plotly
+
     - name: Run CreateChart.py
       env: 
         GAPI: ${{secrets.GAPI}} 

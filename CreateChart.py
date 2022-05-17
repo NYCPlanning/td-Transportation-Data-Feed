@@ -100,7 +100,7 @@ try:
     
     df=pd.merge(df1,df2,on='Start Date',how='left')
     df['Date']=[datetime.datetime.strptime(x,'%m/%d/%Y') for x in df['Start Date']]
-       
+    
     dfcolors={'MTA Subway':'rgba(114,158,206,0.8)',
               'MTA Bus':'rgba(103,191,92,0.8)',
               'LIRR':'rgba(237,102,93,0.8)',
@@ -167,6 +167,7 @@ try:
                'tickfont_size':12,
                'tickformat':'.0%',
                'fixedrange':True,
+               'dtick':0.1,
                'showgrid':False},
         hoverlabel={'bgcolor':'rgba(255,255,255,0.95)',
                     'bordercolor':'rgba(0,0,0,0.1)',
@@ -176,6 +177,14 @@ try:
         dragmode=False,
         hovermode='x unified',
         )
+    fig.add_hline(y=0.5,
+                  line_color='rgba(0,0,0,0.2)',
+                  line_width=1,
+                  layer='below')
+    fig.add_hline(y=1,
+                  line_color='rgba(0,0,0,0.2)',
+                  line_width=1,
+                  layer='below')
     fig.add_annotation(text='<i>*% of Comparable Pre-Pandemic Day</i>',
                        font_size=14,
                        showarrow=False,
