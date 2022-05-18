@@ -41,8 +41,6 @@ df3 = wks3.get_as_df()
 # df2=pd.read_csv('C:/Users/mayij/Desktop/2.csv')
 # df3=pd.read_csv('C:/Users/mayij/Desktop/3.csv')
 
-
-
 try:
     df1=df1.replace('TBD','')
     df1['Date']=[datetime.datetime.strptime(x,'%m/%d/%Y') for x in df1['Date']]
@@ -220,7 +218,7 @@ try:
                        yanchor='top',
                        yref='paper',
                        yshift=-100)
-    fig.add_annotation(text='<i>*** Monthly Average as % of 2019 Monthly Average</i>',
+    fig.add_annotation(text='<i>*** Monthly Total as % of 2019 Monthly Total</i>',
                        font_size=14,
                        showarrow=False,
                        x=1,
@@ -230,7 +228,7 @@ try:
                        yanchor='top',
                        yref='paper',
                        yshift=-120)
-    fig.add_annotation(text = 'Data Source: <a href="https://new.mta.info/coronavirus/ridership" target="blank">Metropolitan Transportation Authority</a>; New Jersey Transit; <a href="https://www.panynj.gov/path/en/about/stats.html" target="blank">Port Authority NY NJ</a>',
+    fig.add_annotation(text = 'Data Source: <a href="https://new.mta.info/coronavirus/ridership" target="blank">Metropolitan Transportation Authority</a>; New Jersey Transit; <a href="https://www.panynj.gov/port-authority/en/index.html" target="blank">Port Authority NY NJ</a>',
                        font_size=14,
                        showarrow=False,
                        x=1,
