@@ -30,10 +30,18 @@ print("-----------------Sheet Opened------------------")
 #Define which sheet to open in the file
 wks1 = sheet[0]
 wks2 = sheet[2]
+wks3 = sheet[3]
 
 #Get the data from the Sheet into python as DF
 df1 = wks1.get_as_df()
 df2 = wks2.get_as_df()
+df3 = wks3.get_as_df()
+
+# df1=pd.read_csv('C:/Users/mayij/Desktop/1.csv')
+# df2=pd.read_csv('C:/Users/mayij/Desktop/2.csv')
+# df3=pd.read_csv('C:/Users/mayij/Desktop/3.csv')
+
+
 
 try:
     df1=df1.replace('TBD','')
@@ -98,18 +106,24 @@ try:
     df2['NJT LRT']=df2['LRTWeek']/df2['LRTPriorWeek']
     df2=df2.loc[60:,['Start Date','NJT Rail','NJT Bus','NJT LRT']].reset_index(drop=True)
     
+    df3['PATH']=[pd.to_numeric(str(x).replace('%',''))/100 if pd.notna(x) else np.nan for x in df3['PATH % of 2019']]
+    df3=df3[['Month','PATH']].reset_index(drop=True)
+    
     df=pd.merge(df1,df2,on='Start Date',how='left')
+    df['Month']=[str(x).split('/')[-1]+'-'+str(x).split('/')[0] for x in df['Start Date']]
+    df=pd.merge(df,df3,on='Month',how='left')
     df['Date']=[datetime.datetime.strptime(x,'%m/%d/%Y') for x in df['Start Date']]
     
-    dfcolors={'MTA Subway':'rgba(114,158,206,0.8)',
-              'MTA Bus':'rgba(103,191,92,0.8)',
-              'LIRR':'rgba(237,102,93,0.8)',
-              'MNR':'rgba(168,120,110,0.8)',
-              'Access-A-Ride':'rgba(237,151,202,0.8)',
-              'MTA Bridges and Tunnels':'rgba(173,139,201,0.8)',
-              'NJT Rail':'rgba(255,158,74,0.8)',
-              'NJT Bus':'rgba(205,204,93,0.8)',
-              'NJT LRT':'rgba(109,204,218,0.8)'}
+    dfcolors={'MTA Subway':'rgba(31,119,180,0.8)',
+              'MTA Bus':'rgba(174,199,232,0.8)',
+              'LIRR':'rgba(255,127,14,0.8)',
+              'MNR':'rgba(255,187,120,0.8)',
+              'Access-A-Ride':'rgba(44,160,44,0.8)',
+              'MTA Bridges and Tunnels':'rgba(152,223,138,0.8)',
+              'NJT Rail':'rgba(214,39,40,0.8)',
+              'NJT Bus':'rgba(255,152,150,0.8)',
+              'NJT LRT':'rgba(148,103,189,0.8)',
+              'PATH':'rgba(197,176,213,0.8)'}
     dfnotes={'MTA Subway':'*',
              'MTA Bus':'*',
              'LIRR':'**',
@@ -118,7 +132,8 @@ try:
              'MTA Bridges and Tunnels':'*',
              'NJT Rail':'*',
              'NJT Bus':'*',
-             'NJT LRT':'*'}
+             'NJT LRT':'*',
+             'PATH':'***'}
     fig=go.Figure()
     fig=fig.add_trace(go.Scattergl(name='',
                                    mode='none',
@@ -127,7 +142,7 @@ try:
                                    showlegend=False,
                                    hovertext='<b>'+df['DateRange']+'</b>',
                                    hoverinfo='text'))
-    for i in ['MTA Subway','MTA Bus','LIRR','MNR','Access-A-Ride','MTA Bridges and Tunnels','NJT Rail','NJT Bus','NJT LRT']:
+    for i in ['MTA Subway','MTA Bus','LIRR','MNR','Access-A-Ride','MTA Bridges and Tunnels','NJT Rail','NJT Bus','NJT LRT','PATH']:
         fig=fig.add_trace(go.Scattergl(name=i+dfnotes[i]+'   ',
                                        mode='lines',
                                        x=df['Date'],
@@ -151,10 +166,10 @@ try:
                 'xanchor':'center',
                 'y':1,
                 'yanchor':'bottom'},
-        margin = {'b': 160,
+        margin = {'b': 180,
                   'l': 80,
                   'r': 40,
-                  't': 140},
+                  't': 120},
         xaxis={'title':{'text':'<b>Date</b>',
                         'font_size':14},
                'tickfont_size':12,
@@ -185,7 +200,7 @@ try:
                   line_color='rgba(0,0,0,0.2)',
                   line_width=1,
                   layer='below')
-    fig.add_annotation(text='<i>*% of Comparable Pre-Pandemic Day</i>',
+    fig.add_annotation(text='<i>* % of Comparable Pre-Pandemic Day</i>',
                        font_size=14,
                        showarrow=False,
                        x=1,
@@ -195,7 +210,7 @@ try:
                        yanchor='top',
                        yref='paper',
                        yshift=-80)
-    fig.add_annotation(text='<i>**% of 2019 Monthly Weekday/Saturday/Sunday Average</i>',
+    fig.add_annotation(text='<i>** % of 2019 Monthly Weekday/Saturday/Sunday Average</i>',
                        font_size=14,
                        showarrow=False,
                        x=1,
@@ -205,7 +220,7 @@ try:
                        yanchor='top',
                        yref='paper',
                        yshift=-100)
-    fig.add_annotation(text = 'Data Source: <a href="https://new.mta.info/coronavirus/ridership" target="blank">Metropolitan Transportation Authority</a>; New Jersey Transit',
+    fig.add_annotation(text='<i>*** Monthly Average as % of 2019 Monthly Average</i>',
                        font_size=14,
                        showarrow=False,
                        x=1,
@@ -215,6 +230,16 @@ try:
                        yanchor='top',
                        yref='paper',
                        yshift=-120)
+    fig.add_annotation(text = 'Data Source: <a href="https://new.mta.info/coronavirus/ridership" target="blank">Metropolitan Transportation Authority</a>; New Jersey Transit; <a href="https://www.panynj.gov/path/en/about/stats.html" target="blank">Port Authority NY NJ</a>',
+                       font_size=14,
+                       showarrow=False,
+                       x=1,
+                       xanchor='right',
+                       xref='paper',
+                       y=0,
+                       yanchor='top',
+                       yref='paper',
+                       yshift=-140)
     fig.write_html('./Weekly.html',
                    include_plotlyjs='cdn',
                    config={'displayModeBar':True,
