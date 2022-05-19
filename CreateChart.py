@@ -37,9 +37,9 @@ df1 = wks1.get_as_df()
 df2 = wks2.get_as_df()
 df3 = wks3.get_as_df()
 
-# df1=pd.read_csv('C:/Users/mayij/Desktop/1.csv')
-# df2=pd.read_csv('C:/Users/mayij/Desktop/2.csv')
-# df3=pd.read_csv('C:/Users/mayij/Desktop/3.csv')
+df1=pd.read_csv('C:/Users/mayij/Desktop/1.csv')
+df2=pd.read_csv('C:/Users/mayij/Desktop/2.csv')
+df3=pd.read_csv('C:/Users/mayij/Desktop/3.csv')
 
 try:
     df1=df1.replace('TBD','')
@@ -105,7 +105,8 @@ try:
     df2=df2.loc[60:,['Start Date','NJT Rail','NJT Bus','NJT LRT']].reset_index(drop=True)
     
     df3['PATH']=[pd.to_numeric(str(x).replace('%',''))/100 if pd.notna(x) else np.nan for x in df3['PATH % of 2019']]
-    df3=df3[['Month','PATH']].reset_index(drop=True)
+    df3['PANYNJ Bridges and Tunnels']=[pd.to_numeric(str(x).replace('%',''))/100 if pd.notna(x) else np.nan for x in df3['BT % of 2019']]
+    df3=df3[['Month','PATH','PANYNJ Bridges and Tunnels']].reset_index(drop=True)
     
     df=pd.merge(df1,df2,on='Start Date',how='left')
     df['Month']=[str(x).split('/')[-1]+'-'+str(x).split('/')[0] for x in df['Start Date']]
@@ -121,7 +122,8 @@ try:
               'NJT Rail':'rgba(214,39,40,0.8)',
               'NJT Bus':'rgba(255,152,150,0.8)',
               'NJT LRT':'rgba(148,103,189,0.8)',
-              'PATH':'rgba(197,176,213,0.8)'}
+              'PATH':'rgba(197,176,213,0.8)',
+              'PANYNJ Bridges and Tunnels':'rgba(140,86,75,0.8)'}
     dfnotes={'MTA Subway':'*',
              'MTA Bus':'*',
              'LIRR':'**',
@@ -131,7 +133,8 @@ try:
              'NJT Rail':'*',
              'NJT Bus':'*',
              'NJT LRT':'*',
-             'PATH':'***'}
+             'PATH':'***',
+             'PANYNJ Bridges and Tunnels':'***'}
     fig=go.Figure()
     fig=fig.add_trace(go.Scattergl(name='',
                                    mode='none',
@@ -140,7 +143,7 @@ try:
                                    showlegend=False,
                                    hovertext='<b>'+df['DateRange']+'</b>',
                                    hoverinfo='text'))
-    for i in ['MTA Subway','MTA Bus','LIRR','MNR','Access-A-Ride','MTA Bridges and Tunnels','NJT Rail','NJT Bus','NJT LRT','PATH']:
+    for i in ['MTA Subway','MTA Bus','LIRR','MNR','Access-A-Ride','MTA Bridges and Tunnels','NJT Rail','NJT Bus','NJT LRT','PATH','PANYNJ Bridges and Tunnels']:
         fig=fig.add_trace(go.Scattergl(name=i+dfnotes[i]+'   ',
                                        mode='lines',
                                        x=df['Date'],
@@ -167,7 +170,7 @@ try:
         margin = {'b': 180,
                   'l': 80,
                   'r': 40,
-                  't': 120},
+                  't': 140},
         xaxis={'title':{'text':'<b>Date</b>',
                         'font_size':14},
                'tickfont_size':12,
