@@ -37,9 +37,9 @@ df1 = wks1.get_as_df()
 df2 = wks2.get_as_df()
 df3 = wks3.get_as_df()
 
-df1=pd.read_csv('C:/Users/mayij/Desktop/1.csv')
-df2=pd.read_csv('C:/Users/mayij/Desktop/2.csv')
-df3=pd.read_csv('C:/Users/mayij/Desktop/3.csv')
+# df1=pd.read_csv('C:/Users/mayij/Desktop/1.csv')
+# df2=pd.read_csv('C:/Users/mayij/Desktop/2.csv')
+# df3=pd.read_csv('C:/Users/mayij/Desktop/3.csv')
 
 try:
     df1=df1.replace('TBD','')
